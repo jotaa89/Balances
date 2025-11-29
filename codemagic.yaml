@@ -7,13 +7,13 @@ workflows:
     environment:
       flutter: 3.22.2          # O tu versión exacta: flutter: 3.22.2
     scripts:
-      - name: Limpiar todo
+      - name: Limpiar caché corrupta
         script: |
+          rm -rf ~/.pub-cache/hosted/pub.dev
+          rm -rf build/
           flutter clean
-          rm -rf android/.gradle
-          rm -rf ~/.pub-cache
-      - name: Instalar dependencias
-        script: flutter pub get
+      - name: Instalar dependencias forzadas
+        script: flutter pub get --verbose
       - name: Compilar APK debug
         script: flutter build apk --debug --target-platform android-arm64
     artifacts:
