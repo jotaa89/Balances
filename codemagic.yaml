@@ -1,34 +1,17 @@
+# archivo: codemagic.yaml (colócalo en la raíz del repo)
 workflows:
-  android-workflow:
-    name: Android Build
-    max_build_duration: 120
-    instance_type: mac_mini_m2  # O linux | linux_x2 para ahorrar costos
-    
+  android-release:
+    name: Android Release APK
+    max_build_duration: 30                         # minutos
+    instance_type: linux                           # máquina Linux (más barata)
     environment:
-      flutter: stable
-      
+      flutter: stable                              # versión Flutter que usará
+      android_signing:                             # ← firma automática
+        - keystore_reference: CM_KEYSTORE          # nombre que le pondrás en UI
     scripts:
-      - name: Install dependencies
-        script: flutter packages pub get
-        
-      - name: Build Android APK
+      - name: Instalar dependencias
+        script: flutter pub get
+      - name: Compilar APK firmado
         script: flutter build apk --release
-        
-      - name: Build Android App Bundle (para Google Play)
-        script: flutter build appbundle --release
-    
     artifacts:
-      # Para APK (instalación directa)
       - build/app/outputs/flutter-apk/app-release.apk
-      
-      # Para AAB (Google Play Store)
-      - build/app/outputs/bundle/release/app-release.aab
-      
-      # O usa comodín para capturar ambos
-      - build/app/outputs/**/*.apk
-      - build/app/outputs/**/*.aab
-    
-    publishing:
-      email:
-        recipients:
-          - montanoe664@gmail.com
