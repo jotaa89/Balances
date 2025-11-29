@@ -5,11 +5,16 @@ workflows:
     max_build_duration: 30
     # ELIMINA la línea instance_type o usa "linux"
     environment:
-      flutter: stable          # O tu versión exacta: flutter: 3.22.2
+      flutter: 3.22.2          # O tu versión exacta: flutter: 3.22.2
     scripts:
+      - name: Limpiar todo
+        script: |
+          flutter clean
+          rm -rf android/.gradle
+          rm -rf ~/.pub-cache
       - name: Instalar dependencias
         script: flutter pub get
       - name: Compilar APK debug
-        script: flutter build apk --debug
+        script: flutter build apk --debug --target-platform android-arm64
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
