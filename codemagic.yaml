@@ -1,17 +1,10 @@
-# codemagic.yaml - Configuración para compilar APK
+# codemagic.yaml - Configuración para compilar APK DEBUG (sin keystore)
 workflows:
-  android-workflow:
-    name: Android Workflow
+  android-debug-workflow:
+    name: Android Debug Build
     max_build_duration: 60
-    instance_type: mac_mini_m1
     environment:
-      android_signing:
-        - keystore_reference
-      groups:
-        - google_play
-      vars:
-        PACKAGE_NAME: "com.example.balances"
-      flutter: stable  # Usa la última versión estable disponible
+      flutter: 3.24.5  # Versión estable específica
       xcode: latest
       cocoapods: default
     scripts:
@@ -21,13 +14,11 @@ workflows:
       - name: Get Flutter packages
         script: | 
           flutter packages pub get
-      - name: Build APK with Flutter
+      - name: Build DEBUG APK (sin keystore)
         script: | 
-          flutter build apk --release --target-platform android-arm64
+          flutter build apk --debug
     artifacts:
-      - build/**/outputs/**/*.apk
-      - build/**/outputs/**/*.aab
-      - build/**/outputs/**/mapping.txt
+      - build/app/outputs/flutter-apk/app-debug.apk
       - flutter_drive.log
     publishing:
       email:
