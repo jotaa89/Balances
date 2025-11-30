@@ -19,11 +19,6 @@ dev_dependencies:
   hive_generator: ^2.0.0
   build_runner: ^2.4.6
   flutter_lints: ^2.0.0
-  
-  dependency_overrides:
-  path_provider_android: ^2.2.4
-  path_provider_foundation: ^2.4.0
-  shared_preferences_android: ^2.3.2
 
 flutter:
   uses-material-design: true

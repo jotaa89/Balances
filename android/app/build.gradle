@@ -23,7 +23,7 @@ android {
     
     defaultConfig {
         applicationId "com.example.balances"
-        minSdk 21                 // ← Cambia de flutter.minSdkVersion a 21
+        minSdkVersion flutter.minSdkVersion                 // ← Cambia de flutter.minSdkVersion a 21
         targetSdk 34              // ← Cambia de flutter.targetSdkVersion a 34
         versionCode 1
         versionName "1.0.0"
