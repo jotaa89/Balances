@@ -1,31 +1,26 @@
-# codemagic.yaml - Configuración para compilar APK DEBUG (sin keystore)
 workflows:
-  android-debug-workflow:
-    name: Android Debug Build
+  android-workflow:
+    name: Android Build
     max_build_duration: 60
     environment:
-      flutter: 3.24.5  # Versión estable específica
+      flutter: stable
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Set up local.properties
-        script: | 
-          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
         script: | 
           flutter packages pub get
-      - name: Build APK with Flutter
+      - name: Build Flutter APK
         script: | 
-          flutter build apk --release --target-platform android-arm64
+          flutter build apk --debug
     artifacts:
       - build/**/outputs/**/*.apk
-      - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
       email:
         recipients:
-          - tu_email@ejemplo.com
+          - jemr1@example.com
         notify:
           success: true
           failure: true
