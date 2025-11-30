@@ -1,16 +1,31 @@
-// archivo: android/app/build.gradle
-// SUSTITUYE TODO el contenido por esto:
-
 plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
 android {
     namespace "com.example.balances"
     compileSdk 34
-    ndkVersion "25.1.8937393"  // ← Versión específica y estable
+    ndkVersion flutter.ndkVersion  // Usa la versión que viene con Flutter
     
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -21,18 +36,23 @@ android {
         jvmTarget = '17'
     }
     
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    
     defaultConfig {
         applicationId "com.example.balances"
-        minSdkVersion flutter.minSdkVersion                 // ← Cambia de flutter.minSdkVersion a 21
-        targetSdk 34              // ← Cambia de flutter.targetSdkVersion a 34
-        versionCode 1
-        versionName "1.0.0"
-        multiDexEnabled true      // ← AÑADE ESTO
+        minSdk 21
+        targetSdk 34
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
     }
     
     buildTypes {
         release {
-            signingConfig signingConfigs.debug  // ← Temporal para debug
+            // TODO: Configurar signing para release
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -42,5 +62,5 @@ flutter {
 }
 
 dependencies {
-    implementation 'androidx.multidex:multidex:2.0.1'  // ← AÑADE ESTO
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
