@@ -25,7 +25,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.example.balances"
     compileSdk 34
-    ndkVersion flutter.ndkVersion  // Usa la versión que viene con Flutter
+    // ndkVersion eliminado - usa el que viene con Flutter
     
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -51,7 +51,7 @@ android {
     
     buildTypes {
         release {
-            // TODO: Configurar signing para release
+            // Firma con debug keys temporalmente
             signingConfig signingConfigs.debug
         }
     }

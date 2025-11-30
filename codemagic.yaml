@@ -3,13 +3,16 @@ workflows:
     name: Android Build
     max_build_duration: 60
     environment:
-      flutter: stable
+      flutter: 3.24.3  # Versión específica estable y probada
       xcode: latest
       cocoapods: default
     scripts:
       - name: Get Flutter packages
         script: | 
-          flutter packages pub get
+          flutter pub get
+      - name: Flutter pub upgrade (fix dependencies)
+        script: | 
+          flutter pub upgrade
       - name: Build Flutter APK
         script: | 
           flutter build apk --debug
